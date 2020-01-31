@@ -1,12 +1,14 @@
 #' Sensor Data Excel
 #'
-#' This function allows you to input your temperature data from the sensor and analyze it for monthly, dayly, hourly and minute by minute average temperatures and heat index in addition to creating graphs. The output is an excel file with multiple sheets
-#' @param person_location the csv file with sensor temperature data
+#' This function allows you to input your temperature data from the sensor and analyze it for monthly, dayly, hourly and minute by minute average temperatures and heat index in addition to creating graphs. The output is an excel file with multiple sheets. When you run the function, you will be prompted to choose which csv you want to analyze
+#' @param folder_name what you want to call the folder where the excel workbook and graphs will save
 #' @return Excel sheets with monthly, dayly, hourly and minute by minute average temperatures and heat index
+#' @example process_sensors_excel_version(your_file_name_here) will prompt file selection; choose a .csv file
 #' @export
 
+process_sensors_excel_version <- function(folder_name) {
 
-process_sensors_excel_version <- function(person_location) {
+   #This will prompt you to choose the csv file you want to analyze
    person_location <- read_csv(file.choose())
 
    # create temporary object with clean column names
@@ -74,10 +76,10 @@ process_sensors_excel_version <- function(person_location) {
    openxlsx::writeData(wb, sheet = 3, temp_humidity_heat_index_hour)
    openxlsx::writeData(wb, sheet = 4, temp_humidity_heat_index_minute)
 
-   # Create folder in output files
-   folder <- paste0(deparse(substitute(person_location)))
-   dir.create(path = folder)
-   excel_filename <- paste0(deparse(substitute(person_location)),"/",  deparse(substitute(person_location)), "_", Sys.Date(), "temp_humidity_heat_index_means.xlsx")
+   # Create folder in working directory
+   folder_path <- paste0(getwd(), "/", deparse(substitute(folder_name)))
+   dir.create(path = folder_path)
+   excel_filename <- paste0(getwd(), "/", deparse(substitute(folder_name)),"/",  deparse(substitute(folder_name)), "_", Sys.Date(), "_temp_humidity_heat_index_means.xlsx")
 
    # Save worksheet to correct folder
    openxlsx::saveWorkbook(wb, excel_filename, overwrite = TRUE)
@@ -88,19 +90,19 @@ process_sensors_excel_version <- function(person_location) {
    ######################
 
    # Build monthly graph temperature
-   chart_title <- paste0(deparse(substitute(person_location)), " mean temperature by month")
+   chart_title <- paste0(deparse(substitute(folder_name)), " mean temperature by month")
    temp_month_graph <- ggplot(data = temp_humidity_heat_index_month, aes(x = month, y = mean_temp)) +
       geom_bar(stat="identity") +
       ggtitle(chart_title) +
       xlab("Month Number") +
       ylab("Mean Temperature")
    plot(temp_month_graph)
-   filename <- paste0(deparse(substitute(person_location)),"_", Sys.Date(), "_temp_means_month.pdf")
-   filepath <- paste0(deparse(substitute(person_location)),"/")
+   filename <- paste0(deparse(substitute(folder_name)),"_", Sys.Date(), "_temp_means_month.pdf")
+   filepath <- paste0(getwd(), "/", deparse(substitute(folder_name)),"/")
    ggsave(filename, plot = temp_month_graph, device = "pdf", path = filepath, scale = 1, width = 11, height = 8, units = "in", dpi = 300)
 
    # Build daily graph temperature
-   chart_title <- paste0(deparse(substitute(person_location)), " mean temperature by day")
+   chart_title <- paste0(deparse(substitute(folder_name)), " mean temperature by day")
    temp_day_graph <- ggplot() +
       geom_line(data = temp_humidity_heat_index_day, aes(x = day, y = mean_temp, colour="real temp")) +
       geom_line(data = temp_humidity_heat_index_day, aes(x = day, y = mean_heat_index, colour="heat index")) +
@@ -113,12 +115,12 @@ process_sensors_excel_version <- function(person_location) {
       ylab("Means") +
       scale_x_datetime(date_labels = "%b %d %H", date_breaks = "1 day")
    plot(temp_day_graph)
-   filename <- paste0(deparse(substitute(person_location)),"_", Sys.Date(), "_temp_means_day.pdf")
-   filepath <- paste0(deparse(substitute(person_location)),"/")
+   filename <- paste0(deparse(substitute(folder_name)),"_", Sys.Date(), "_temp_means_day.pdf")
+   filepath <- paste0(getwd(), "/", deparse(substitute(folder_name)),"/")
    ggsave(filename, plot = temp_day_graph, device = "pdf", path = filepath, scale = 1, width = 11, height = 8, units = "in", dpi = 300)
 
    # Build hourly graph temperature
-   chart_title <- paste0(deparse(substitute(person_location)), " mean temperature by hour")
+   chart_title <- paste0(deparse(substitute(folder_name)), " mean temperature by hour")
    temp_hour_graph <- ggplot(data = temp_humidity_heat_index_hour, aes(x = hour, y = mean_temp)) +
       geom_line() +
       ggtitle(chart_title) +
@@ -127,12 +129,12 @@ process_sensors_excel_version <- function(person_location) {
       scale_x_datetime(date_labels = "%b %d %H", date_breaks = "1 day") +
       theme(axis.text.x = element_text(angle=50,hjust=1))
    plot(temp_hour_graph)
-   filename <- paste0(deparse(substitute(person_location)),"_", Sys.Date(), "_temp_means_hour.pdf")
-   filepath <- paste0(deparse(substitute(person_location)),"/")
+   filename <- paste0(deparse(substitute(folder_name)),"_", Sys.Date(), "_temp_means_hour.pdf")
+   filepath <- paste0(getwd(), "/", deparse(substitute(folder_name)),"/")
    ggsave(filename, plot = temp_hour_graph, device = "pdf", path = filepath, scale = 1, width = 11, height = 8, units = "in", dpi = 300)
 
    # Build minute graph temperature
-   chart_title <- paste0(deparse(substitute(person_location)), " mean temperature by minute")
+   chart_title <- paste0(deparse(substitute(folder_name)), " mean temperature by minute")
    temp_minute_graph <- ggplot(data =  temp_humidity_heat_index_minute, aes(x = minute, y = mean_temp)) +
       geom_line() +
       ggtitle(chart_title) +
@@ -141,22 +143,21 @@ process_sensors_excel_version <- function(person_location) {
       scale_x_datetime(date_labels = "%b %d %H", date_breaks = "1 day") +
       theme(axis.text.x = element_text(angle=50,hjust=1))
    plot(temp_minute_graph)
-   filename <- paste0(deparse(substitute(person_location)),"_", Sys.Date(), "_temp_means_minute.pdf")
-   filepath <- paste0(deparse(substitute(person_location)),"/")
+   filename <- paste0(deparse(substitute(folder_name)),"_", Sys.Date(), "_temp_means_minute.pdf")
+   filepath <- paste0(getwd(), "/", deparse(substitute(folder_name)),"/")
    ggsave(filename, plot = temp_minute_graph, device = "pdf", path = filepath, scale = 1, width = 11, height = 8, units = "in", dpi = 300)
 
 }
 
-
 #' Sensor Data R
 #'
-#' This function allows you to input your temperature data from the sensor and analyze it for monthly, dayly, hourly and minute by minute average temperatures and heat index in addition to creating graphs. The output is an R script with tables and graphs.
-#' @param person_location the csv file with sensor temperature data
+#' This function allows you to input your temperature data from the sensor and analyze it for monthly, dayly, hourly and minute by minute average temperatures and heat index in addition to creating graphs. The output is an R script with tables and graphs. When you run the function, you will be prompted to choose which csv you want to analyze.
+#' @param folder_name what you want to call the folder where the excel workbook and graphs will save
 #' @return Graphs and tables with monthly, dayly, hourly and minute by minute average temperatures and heat index
 #' @export
 
 
-process_sensors_r_version <- function(person_location) {
+process_sensors_r_version <- function(folder_name) {
 
    person_location <- read_csv(file.choose())
 
@@ -180,7 +181,7 @@ process_sensors_r_version <- function(person_location) {
       summarise(mean_temp = round(mean(temperature),1),
                 mean_heat_index = round(mean(heat_index),1),
                 mean_humidity = round(mean(humidity),1))
-   table_name <- paste0(deparse(substitute(person_location)), "_month_averages")
+   table_name <- paste0(deparse(substitute(folder_name)), "_month_averages")
    assign(table_name, temp_humidity_heat_index_month, envir = parent.frame())
 
    # calculate average temperature by day for the sensor, and store it as temporary object
@@ -191,7 +192,7 @@ process_sensors_r_version <- function(person_location) {
                 mean_heat_index = round(mean(heat_index),1),
                 mean_humidity = round(mean(humidity),1)) %>%
       select(day, mean_temp, mean_humidity, mean_heat_index)
-   table_name <- paste0(deparse(substitute(person_location)), "_day_averages")
+   table_name <- paste0(deparse(substitute(folder_name)), "_day_averages")
    assign(table_name, temp_humidity_heat_index_day, envir = parent.frame())
 
    # calculate average temperature by hour for the sensor, and store it as temporary object
@@ -202,7 +203,7 @@ process_sensors_r_version <- function(person_location) {
                 mean_heat_index = round(mean(heat_index),1),
                 mean_humidity = round(mean(humidity),1)) %>%
       select(hour, mean_temp, mean_humidity, mean_heat_index)
-   table_name <- paste0(deparse(substitute(person_location)), "_hourly_averages")
+   table_name <- paste0(deparse(substitute(folder_name)), "_hourly_averages")
    assign(table_name, temp_humidity_heat_index_hour, envir = parent.frame())
 
    # Calculate average temperature by minute for the sensor, and store it as temporary object
@@ -213,7 +214,7 @@ process_sensors_r_version <- function(person_location) {
       summarise(mean_temp = round(mean(temperature),1),
                 mean_heat_index = round(mean(heat_index),1),
                 mean_humidity = round(mean(humidity),1))
-   table_name <- paste0(deparse(substitute(person_location)), "_minute_averages")
+   table_name <- paste0(deparse(substitute(folder_name)), "_minute_averages")
    assign(table_name, temp_humidity_heat_index_minute, envir = parent.frame())
 
    ######################
@@ -221,19 +222,19 @@ process_sensors_r_version <- function(person_location) {
    ######################
 
    # Build monthly graph temperature
-   chart_title <- paste0(deparse(substitute(person_location)), " mean temperature by month")
+   chart_title <- paste0(deparse(substitute(folder_name)), " mean temperature by month")
    temp_month_graph <- ggplot(data = temp_humidity_heat_index_month, aes(x = month, y = mean_temp)) +
       geom_bar(stat="identity") +
       ggtitle(chart_title) +
       xlab("Month Number") +
       ylab("Mean Temperature")
    plot(temp_month_graph)
-   filename <- paste0(deparse(substitute(person_location)),"_", Sys.Date(), "_temp_means_month.pdf")
-   filepath <- paste0(deparse(substitute(person_location)),"/")
+   filename <- paste0(deparse(substitute(folder_name)),"_", Sys.Date(), "_temp_means_month.pdf")
+   filepath <- paste0(getwd(), "/", deparse(substitute(folder_name)))
    ggsave(filename, plot = temp_month_graph, device = "pdf", path = filepath, scale = 1, width = 11, height = 8, units = "in", dpi = 300)
 
    # Build daily graph temperature
-   chart_title <- paste0(deparse(substitute(person_location)), " mean temperature by day")
+   chart_title <- paste0(deparse(substitute(folder_name)), " mean temperature by day")
    temp_day_graph <- ggplot() +
       geom_line(data = temp_humidity_heat_index_day, aes(x = day, y = mean_temp, colour="real temp")) +
       geom_line(data = temp_humidity_heat_index_day, aes(x = day, y = mean_heat_index, colour="heat index")) +
@@ -246,12 +247,12 @@ process_sensors_r_version <- function(person_location) {
       ylab("Means") +
       scale_x_datetime(date_labels = "%b %d %H", date_breaks = "1 day")
    plot(temp_day_graph)
-   filename <- paste0(deparse(substitute(person_location)),"_", Sys.Date(), "_temp_means_day.pdf")
-   filepath <- paste0(deparse(substitute(person_location)),"/")
+   filename <- paste0(deparse(substitute(folder_name)),"_", Sys.Date(), "_temp_means_day.pdf")
+   filepath <- paste0(getwd(), "/", deparse(substitute(folder_name)))
    ggsave(filename, plot = temp_day_graph, device = "pdf", path = filepath, scale = 1, width = 11, height = 8, units = "in", dpi = 300)
 
    # Build hourly graph temperature
-   chart_title <- paste0(deparse(substitute(person_location)), " mean temperature by hour")
+   chart_title <- paste0(deparse(substitute(folder_name)), " mean temperature by hour")
    temp_hour_graph <- ggplot(data = temp_humidity_heat_index_hour, aes(x = hour, y = mean_temp)) +
       geom_line() +
       ggtitle(chart_title) +
@@ -260,12 +261,12 @@ process_sensors_r_version <- function(person_location) {
       scale_x_datetime(date_labels = "%b %d %H", date_breaks = "1 day") +
       theme(axis.text.x = element_text(angle=50,hjust=1))
    plot(temp_hour_graph)
-   filename <- paste0(deparse(substitute(person_location)),"_", Sys.Date(), "_temp_means_hour.pdf")
-   filepath <- paste0(deparse(substitute(person_location)),"/")
+   filename <- paste0(deparse(substitute(folder_name)),"_", Sys.Date(), "_temp_means_hour.pdf")
+   filepath <- paste0(getwd(), "/", deparse(substitute(folder_name)))
    ggsave(filename, plot = temp_hour_graph, device = "pdf", path = filepath, scale = 1, width = 11, height = 8, units = "in", dpi = 300)
 
    # Build minute graph temperature
-   chart_title <- paste0(deparse(substitute(person_location)), " mean temperature by minute")
+   chart_title <- paste0(deparse(substitute(folder_name)), " mean temperature by minute")
    temp_minute_graph <- ggplot(data =  temp_humidity_heat_index_minute, aes(x = minute, y = mean_temp)) +
       geom_line() +
       ggtitle(chart_title) +
@@ -274,8 +275,8 @@ process_sensors_r_version <- function(person_location) {
       scale_x_datetime(date_labels = "%b %d %H", date_breaks = "1 day") +
       theme(axis.text.x = element_text(angle=50,hjust=1))
    plot(temp_minute_graph)
-   filename <- paste0(deparse(substitute(person_location)),"_", Sys.Date(), "_temp_means_minute.pdf")
-   filepath <- paste0(deparse(substitute(person_location)),"/")
+   filename <- paste0(deparse(substitute(folder_name)),"_", Sys.Date(), "_temp_means_minute.pdf")
+   filepath <- paste0(getwd(), "/", deparse(substitute(folder_name)))
    ggsave(filename, plot = temp_minute_graph, device = "pdf", path = filepath, scale = 1, width = 11, height = 8, units = "in", dpi = 300)
 
 }

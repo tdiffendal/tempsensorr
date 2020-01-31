@@ -1,2 +1,0 @@
-# tempsensorr
-tempsensorr package
