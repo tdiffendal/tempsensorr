@@ -76,6 +76,7 @@ process_sensors_excel_version <- function(person_location) {
 
    # Create folder in output files
    folder <- paste0(deparse(substitute(person_location)))
+   dir.create(path = folder)
    excel_filename <- paste0(deparse(substitute(person_location)),"/",  deparse(substitute(person_location)), "_", Sys.Date(), "temp_humidity_heat_index_means.xlsx")
 
    # Save worksheet to correct folder
@@ -144,7 +145,7 @@ process_sensors_excel_version <- function(person_location) {
    filepath <- paste0(deparse(substitute(person_location)),"/")
    ggsave(filename, plot = temp_minute_graph, device = "pdf", path = filepath, scale = 1, width = 11, height = 8, units = "in", dpi = 300)
 
-   }
+}
 
 
 #' Sensor Data R
@@ -277,6 +278,5 @@ process_sensors_r_version <- function(person_location) {
    filepath <- paste0(deparse(substitute(person_location)),"/")
    ggsave(filename, plot = temp_minute_graph, device = "pdf", path = filepath, scale = 1, width = 11, height = 8, units = "in", dpi = 300)
 
-   }
-
+}
 
