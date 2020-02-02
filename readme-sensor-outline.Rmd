@@ -192,7 +192,7 @@ process_sensors_excel_version <- function(folder_name, path_file) {
 }
 
 #### Excecute the function process_sensors, with the object name we just built
-process_sensors_excel_version(folder_name, path_file)
+process_sensors_excel_version(data, "20190730_BC29_Stephanie.csv")
 
 ```
 
