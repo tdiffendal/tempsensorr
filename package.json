@@ -1,0 +1,24 @@
+{
+  "name": "@tdiffendal/tempsensorr",
+  "version": "1.0.0",
+  "description": "a package with functions to analyze temperature data collected fromsensors modeled on those used in the Howard Center for Investigative Journalism's NPF award-winning project \"Code Red.\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tdiffendal/tempsensorr.git"
+  },
+  "keywords": [
+    "sensor",
+    "temperature",
+    "journalism"
+  ],
+  "author": "Theresa Diffendal <tdiff@umd.edu>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tdiffendal/tempsensorr/issues"
+  },
+  "homepage": "https://github.com/tdiffendal/tempsensorr#readme"
+}
