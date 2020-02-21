@@ -1,18 +1,28 @@
 #' Sensor Data Excel
 #'
-#' This function allows you to input your temperature data from the sensor and analyze it for monthly, dayly, hourly and minute by minute average temperatures and heat index in addition to creating graphs. The output is an excel file with multiple sheets. When you run the function, you will be prompted to choose which csv you want to analyze
+#' This function allows you to input your temperature data from the sensor and analyze it for monthly, dayly, hourly and minute by minute average temperatures and heat index in addition to creating graphs. The output is an excel file with multiple sheets. When you run the function, you will be prompted to choose which csv you want to analyze.
 #' @param folder_name what you want to call the folder where the excel workbook and graphs will save
-#' @return Excel sheets with monthly, dayly, hourly and minute by minute average temperatures and heat index
-#' @example process_sensors_excel_version(your_file_name_here) will prompt file selection; choose a .csv file
+#' @return Excel sheets with monthly, dayly, hourly and minute by minute average temperatures and heat index as well as graphs plotting the same information
+#' @example process_sensors_excel_version()
+#' @import dplyr ggplot2 readr
+#' @importFrom readr read_csv
+#' @importFrom janitor clean_names
+#' @importFrom lubridate mdy make_datetime
+#' @importFrom weathermetrics heat.index
+#' @importFrom openxlsx addWorksheet writeData createWorkbook saveWorkbook
+#' @importFrom graphics plot
 #' @export
 
 process_sensors_excel_version <- function(folder_name) {
+
+   ##bind variables locally to the function
+   temp <- time <- year <- month <- day <- hour <- minute <- temperature <- humidity <- heat_index <- mean_temp <- mean_humidity <- mean_heat_index <- temp_humidity_heat_index_month <- temp_humidity_heat_index_day <- temp_humidity_heat_index_hour <- temp_humidity_heat_index_minute <- NULL
 
    #This will prompt you to choose the csv file you want to analyze
    person_location <- read_csv(file.choose())
 
    # create temporary object with clean column names
-   temp <<- janitor::clean_names(person_location)
+   temp <<- clean_names(person_location)
    # parse date objects and remove unneeded columns
    temp <<- temp %>%
       mutate(date = mdy(date)) %>%
@@ -62,19 +72,19 @@ process_sensors_excel_version <- function(folder_name) {
       )
 
    # Create an empty Excel workbook
-   wb <- openxlsx::createWorkbook("workbook")
+   wb <- createWorkbook("workbook")
 
    # Create four empty Excel worksheets in Workbook
-   openxlsx::addWorksheet(wb, "temp_humidity_heat_index_month")
-   openxlsx::addWorksheet(wb, "temp_humidity_heat_index_day")
-   openxlsx::addWorksheet(wb, "temp_humidity_heat_index_hour")
-   openxlsx::addWorksheet(wb, "temp_humidity_heat_index_minute")
+   addWorksheet(wb, "temp_humidity_heat_index_month")
+   addWorksheet(wb, "temp_humidity_heat_index_day")
+   addWorksheet(wb, "temp_humidity_heat_index_hour")
+   addWorksheet(wb, "temp_humidity_heat_index_minute")
 
    # Write aggregated dataframes to corresponding worksheets
-   openxlsx::writeData(wb, sheet = 1, temp_humidity_heat_index_month)
-   openxlsx::writeData(wb, sheet = 2, temp_humidity_heat_index_day)
-   openxlsx::writeData(wb, sheet = 3, temp_humidity_heat_index_hour)
-   openxlsx::writeData(wb, sheet = 4, temp_humidity_heat_index_minute)
+   writeData(wb, sheet = 1, temp_humidity_heat_index_month)
+   writeData(wb, sheet = 2, temp_humidity_heat_index_day)
+   writeData(wb, sheet = 3, temp_humidity_heat_index_hour)
+   writeData(wb, sheet = 4, temp_humidity_heat_index_minute)
 
    # Create folder in working directory
    folder_path <- paste0(getwd(), "/", deparse(substitute(folder_name)))
@@ -82,7 +92,7 @@ process_sensors_excel_version <- function(folder_name) {
    excel_filename <- paste0(getwd(), "/", deparse(substitute(folder_name)),"/",  deparse(substitute(folder_name)), "_", Sys.Date(), "_temp_humidity_heat_index_means.xlsx")
 
    # Save worksheet to correct folder
-   openxlsx::saveWorkbook(wb, excel_filename, overwrite = TRUE)
+   saveWorkbook(wb, excel_filename, overwrite = TRUE)
 
 
    ######################
@@ -151,18 +161,28 @@ process_sensors_excel_version <- function(folder_name) {
 
 #' Sensor Data R
 #'
-#' This function allows you to input your temperature data from the sensor and analyze it for monthly, dayly, hourly and minute by minute average temperatures and heat index in addition to creating graphs. The output is an R script with tables and graphs. When you run the function, you will be prompted to choose which csv you want to analyze.
-#' @param folder_name what you want to call the folder where the excel workbook and graphs will save
-#' @return Graphs and tables with monthly, dayly, hourly and minute by minute average temperatures and heat index
+#' This function allows you to input your temperature data from the sensor and analyze it for monthly, dayly, hourly and minute by minute average temperatures and heat index in addition to creating graphs. The output is an R script with tables and graphs. When you run the function, you will be prompted to choose which .csv you want to analyze.
+#' @param folder_name what you want to call the folder where the graphs will save
+#' @return Graphs with monthly, dayly, hourly and minute by minute average temperatures and heat index. Will also create tables in R with same information.
+#' @example process_sensors_r_version(folder_name)
+#' @import dplyr ggplot2
+#' @importFrom readr read_csv
+#' @importFrom janitor clean_names
+#' @importFrom lubridate mdy make_datetime
+#' @importFrom weathermetrics heat.index
+#' @importFrom graphics plot
 #' @export
 
 
 process_sensors_r_version <- function(folder_name) {
 
+   ##bind variables locally to the function
+   temp <- time <- year <- month <- day <- hour <- minute <- temperature <- humidity <- heat_index <- mean_temp <- mean_humidity <- mean_heat_index <- temp_humidity_heat_index_month <- temp_humidity_heat_index_day <- temp_humidity_heat_index_hour <- temp_humidity_heat_index_minute <- NULL
+
    person_location <- read_csv(file.choose())
 
    # clean column names
-   temp <<- janitor::clean_names(person_location)
+   temp <<- clean_names(person_location)
 
    # parse date objects and remove unneeded columns
    temp <<- temp %>%
@@ -216,6 +236,10 @@ process_sensors_r_version <- function(folder_name) {
                 mean_humidity = round(mean(humidity),1))
    table_name <- paste0(deparse(substitute(folder_name)), "_minute_averages")
    assign(table_name, temp_humidity_heat_index_minute, envir = parent.frame())
+
+   # Create folder in working directory
+   folder_path <- paste0(getwd(), "/", deparse(substitute(folder_name)))
+   dir.create(path = folder_path)
 
    ######################
    #### Build graphs ####

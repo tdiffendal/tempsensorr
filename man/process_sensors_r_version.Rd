@@ -4,14 +4,14 @@
 \alias{process_sensors_r_version}
 \title{Sensor Data R}
 \usage{
-process_sensors_r_version(person_location)
+process_sensors_r_version(folder_name)
 }
 \arguments{
-\item{person_location}{the csv file with sensor temperature data}
+\item{folder_name}{what you want to call the folder where the graphs will save}
 }
 \value{
-Graphs and tables with monthly, dayly, hourly and minute by minute average temperatures and heat index
+Graphs with monthly, dayly, hourly and minute by minute average temperatures and heat index. Will also create tables in R with same information.
 }
 \description{
-This function allows you to input your temperature data from the sensor and analyze it for monthly, dayly, hourly and minute by minute average temperatures and heat index in addition to creating graphs. The output is an R script with tables and graphs.
+This function allows you to input your temperature data from the sensor and analyze it for monthly, dayly, hourly and minute by minute average temperatures and heat index in addition to creating graphs. The output is an R script with tables and graphs. When you run the function, you will be prompted to choose which .csv you want to analyze.
 }
