@@ -1,6 +1,3 @@
-# tempsensorr
-tempsensorr package
-
 ---
 title: "readme-sensor-outline"
 author: "Theresa Diffendal"
@@ -15,6 +12,9 @@ output:
       toc: true
       toc_depth: 3
 ---
+
+# tempsensorr
+tempsensorr package
 
 The Howard Center for Investigative Journalism Code Red Temperature and Humidity Sensors
 
