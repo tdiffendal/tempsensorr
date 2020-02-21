@@ -3,7 +3,6 @@
 #' This function allows you to input your temperature data from the sensor and analyze it for monthly, dayly, hourly and minute by minute average temperatures and heat index in addition to creating graphs. The output is an excel file with multiple sheets. When you run the function, you will be prompted to choose which csv you want to analyze.
 #' @param folder_name what you want to call the folder where the excel workbook and graphs will save
 #' @return Excel sheets with monthly, dayly, hourly and minute by minute average temperatures and heat index as well as graphs plotting the same information
-#' @example process_sensors_excel_version()
 #' @import dplyr ggplot2 readr
 #' @importFrom readr read_csv
 #' @importFrom janitor clean_names
@@ -164,7 +163,6 @@ process_sensors_excel_version <- function(folder_name) {
 #' This function allows you to input your temperature data from the sensor and analyze it for monthly, dayly, hourly and minute by minute average temperatures and heat index in addition to creating graphs. The output is an R script with tables and graphs. When you run the function, you will be prompted to choose which .csv you want to analyze.
 #' @param folder_name what you want to call the folder where the graphs will save
 #' @return Graphs with monthly, dayly, hourly and minute by minute average temperatures and heat index. Will also create tables in R with same information.
-#' @example process_sensors_r_version(folder_name)
 #' @import dplyr ggplot2
 #' @importFrom readr read_csv
 #' @importFrom janitor clean_names
