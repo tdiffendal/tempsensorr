@@ -1,18 +1,3 @@
----
-title: "readme-sensor-outline"
-author: "Theresa Diffendal"
-date: "1/17/2020"
-output: 
-  html_document:
-      toc: true
-      toc_depth: 3
-      toc_float: true
-    md_document:
-      variant: markdown_github
-      toc: true
-      toc_depth: 3
----
-
 # tempsensorr
 tempsensorr package
 
