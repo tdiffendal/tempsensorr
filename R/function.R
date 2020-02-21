@@ -3,19 +3,16 @@
 #' This function allows you to input your temperature data from the sensor and analyze it for monthly, dayly, hourly and minute by minute average temperatures and heat index in addition to creating graphs. The output is an excel file with multiple sheets. When you run the function, you will be prompted to choose which csv you want to analyze.
 #' @param folder_name what you want to call the folder where the excel workbook and graphs will save
 #' @return Excel sheets with monthly, dayly, hourly and minute by minute average temperatures and heat index as well as graphs plotting the same information
-#' @import dplyr ggplot2 readr
+#' @import dplyr ggplot2
 #' @importFrom readr read_csv
 #' @importFrom janitor clean_names
-#' @importFrom lubridate mdy make_datetime
+#' @importFrom lubridate mdy make_datetime year month day hour minute
 #' @importFrom weathermetrics heat.index
 #' @importFrom openxlsx addWorksheet writeData createWorkbook saveWorkbook
 #' @importFrom graphics plot
 #' @export
 
 process_sensors_excel_version <- function(folder_name) {
-
-   ##bind variables locally to the function
-   temp <- time <- year <- month <- day <- hour <- minute <- temperature <- humidity <- heat_index <- mean_temp <- mean_humidity <- mean_heat_index <- temp_humidity_heat_index_month <- temp_humidity_heat_index_day <- temp_humidity_heat_index_hour <- temp_humidity_heat_index_minute <- NULL
 
    #This will prompt you to choose the csv file you want to analyze
    person_location <- read_csv(file.choose())
@@ -166,16 +163,13 @@ process_sensors_excel_version <- function(folder_name) {
 #' @import dplyr ggplot2
 #' @importFrom readr read_csv
 #' @importFrom janitor clean_names
-#' @importFrom lubridate mdy make_datetime
+#' @importFrom lubridate mdy make_datetime year month day hour minute
 #' @importFrom weathermetrics heat.index
 #' @importFrom graphics plot
 #' @export
 
 
 process_sensors_r_version <- function(folder_name) {
-
-   ##bind variables locally to the function
-   temp <- time <- year <- month <- day <- hour <- minute <- temperature <- humidity <- heat_index <- mean_temp <- mean_humidity <- mean_heat_index <- temp_humidity_heat_index_month <- temp_humidity_heat_index_day <- temp_humidity_heat_index_hour <- temp_humidity_heat_index_minute <- NULL
 
    person_location <- read_csv(file.choose())
 
