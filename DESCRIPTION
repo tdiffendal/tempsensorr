@@ -1,10 +1,7 @@
 Package: tempsensorr
 Type: Package
-Title: tempsensorr - Process Temperature Sensor Data
-Description: Functions produced by Philip Merrill College's Howard Center for
-	Investigative Journalism to process temperature information collected by sensors. 	Two functions, one for R outputs and one for Excel, will analyze your chosen file 	and outputs tables and graphs. You will need to use the code
-	install_github("tdiffendal/tempsensorr") to install. install_github requires the 	library devtools.
 Version: 0.1.0
+Title: Process Temperature Sensor Data
 Author: Theresa Diffendal <tdiff@umd.edu>
 Maintainer: Theresa Diffendal <tdiff@umd.edu>
 Depends: R (>= 3.2)
@@ -16,6 +13,14 @@ Imports: lubridate,
     dplyr,
     ggplot2,
     rlang
+Description: Functions produced by Philip Merrill College's Howard Center for
+	Investigative Journalism to process temperature information collected by
+	temperature sensors. Two functions, one for R outputs and one for Excel, will
+	analyze your chosen file and output tables and graphs. The Excel version is
+	intended for those who are unfamiliar with R, while the R version will allow users
+	to manipulate the cleaned data in R. 
+	You will need to use the code install_github("tdiffendal/tempsensorr") to install.
+	install_github requires the library devtools.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: TRUE
