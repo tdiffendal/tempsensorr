@@ -3,7 +3,9 @@ tempsensorr package
 
 The Howard Center for Investigative Journalism Code Red Temperature and Humidity Sensors
 
-This R Markdown was created by [The Howard Center for Investigative Journalism](https://merrill.umd.edu/about-merrill/signature-programs/the-howard-center-for-investigative-journalism/) at the University of Maryland's Philip Merrill College of Journalism for the purpose of providing a guide which other organizations can use to build their own temperature sensors. These sensors were used in the Howard Center's recent project, [Code Red](https://cnsmaryland.org/interactives/summer-2019/code-red/index.html), to examine how heat unequally affects residents of Baltimore, with low-income and people of color most affected. 
+This R Markdown was created by [The Howard Center for Investigative Journalism](https://merrill.umd.edu/about-merrill/signature-programs/the-howard-center-for-investigative-journalism/) at the University of Maryland's Philip Merrill College of Journalism for the purpose of providing a guide which other organizations can use to build their own temperature sensors. These sensors were used in the Howard Center's recent project, [Code Red](https://cnsmaryland.org/interactives/summer-2019/code-red/index.html), to examine how heat unequally affects residents of Baltimore. 
+
+We found that neighborhoods with greater people of color or low-income populations are significantly hotter than surrounding richer, whiter and more rural neighborhoods. Heat exacerbates a range of health issues such as COPD and asthma, and the heated difference is also not an accident. The hotter communities were historically excluded from receiving loans due to red-lining, a process which determined the risk of investing in an area based significantly on race.
 
 We built temperature and humidity sensors, using this ["Harlem Heat" project guide](https://github.com/datanews/harlem-heat) created by WNYC public radio for their [Harlem Heat Project](https://www.wnyc.org/series/harlem-heat-project). We placed them in several homes in Baltimore in summer 2019 and joined them with outdoor temperature to examine how heat index varied indoors and out.
 
